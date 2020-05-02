@@ -21,7 +21,7 @@
 
         readonly PostAction postAction;
         readonly string uri;
-        string runName;
+        string runName = "Unknown";
 
         static readonly HttpClient Client;
 
@@ -31,8 +31,8 @@
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public AppVeyorListener()
-            : this(GetEnvironmentVariable("APPVEYOR_API_URL"), Post)
+        public AppVeyorListener(string uri)
+            : this(uri, Post)
         {
         }
 
@@ -109,14 +109,14 @@
 
         public class TestResult
         {
-            public string TestFramework { get; set; }
-            public string FileName { get; set; }
-            public string TestName { get; set; }
-            public string Outcome { get; set; }
-            public string DurationMilliseconds { get; set; }
-            public string StdOut { get; set; }
-            public string ErrorMessage { get; set; }
-            public string ErrorStackTrace { get; set; }
+            public string? TestFramework { get; set; }
+            public string? FileName { get; set; }
+            public string? TestName { get; set; }
+            public string? Outcome { get; set; }
+            public string? DurationMilliseconds { get; set; }
+            public string? StdOut { get; set; }
+            public string? ErrorMessage { get; set; }
+            public string? ErrorStackTrace { get; set; }
         }
     }
 }
