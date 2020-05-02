@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.IO.Pipes;
     using System.Linq;
@@ -147,8 +146,8 @@
             if (ShouldUseAzureListener())
                 yield return new AzureListener();
 
-            if (ShouldUseAppVeyorListener(out var uri))
-                yield return new AppVeyorListener(uri);
+            if (AppVeyorListener.TryCreate(out var listener))
+                yield return listener;
 
             if (options.Report != null)
                 yield return new ReportListener(SaveReport(options));
@@ -202,14 +201,6 @@
         static bool ShouldUseTeamCityListener()
         {
             return Environment.GetEnvironmentVariable("TEAMCITY_PROJECT_NAME") != null;
-        }
-
-        static bool ShouldUseAppVeyorListener([NotNullWhen(true)] out string? uri)
-        {
-            var runningUnderAppVeyor = Environment.GetEnvironmentVariable("APPVEYOR") == "True";
-            uri = Environment.GetEnvironmentVariable("APPVEYOR_API_URL");
-
-            return runningUnderAppVeyor && uri != null;
         }
     }
 }

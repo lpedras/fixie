@@ -1,6 +1,7 @@
 ﻿namespace Fixie.Internal.Listeners
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -31,9 +32,16 @@
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public AppVeyorListener(string uri)
-            : this(uri, Post)
+        public static bool TryCreate([NotNullWhen(true)] out AppVeyorListener? listener)
         {
+            var runningUnderAppVeyor = GetEnvironmentVariable("APPVEYOR") == "True";
+            var uri = GetEnvironmentVariable("APPVEYOR_API_URL");
+
+            listener = runningUnderAppVeyor && uri != null
+                ? new AppVeyorListener(uri, Post)
+                : null;
+
+            return listener != null;
         }
 
         public AppVeyorListener(string uri, PostAction postAction)
