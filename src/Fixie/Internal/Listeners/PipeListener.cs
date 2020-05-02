@@ -71,7 +71,7 @@
             });
         }
 
-        void Write<TTestResult>(CaseCompleted message, Action<TTestResult> customize = null)
+        void Write<TTestResult>(CaseCompleted message, Action<TTestResult>? customize = null)
             where TTestResult : PipeMessage.CaseCompleted, new()
         {
             var test = new Test(message.Method);
