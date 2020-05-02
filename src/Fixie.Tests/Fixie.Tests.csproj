@@ -5,6 +5,7 @@
     <Optimize>false</Optimize>
     <IsTestProject>true</IsTestProject>
     <DebugType>embedded</DebugType>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
