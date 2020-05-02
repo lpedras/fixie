@@ -75,7 +75,7 @@
                     new XAttribute("skipped", message.Skipped),
                     currentClass));
 
-            currentClass = new List<XElement>();
+            currentClass.Clear();
         }
 
         public void Handle(AssemblyCompleted message)
@@ -97,7 +97,7 @@
                         new XAttribute("test-framework", Fixie.Framework.Version),
                         classes))));
 
-            classes = null;
+            classes.Clear();
         }
 
         static string Framework => Environment.Version.ToString();
